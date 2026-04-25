@@ -20,8 +20,8 @@
                 &kp LSHFT &kp A     &kp S     &kp D     &kp F    &kp G    &kp PG_UP               &kp H    &kp J     &kp K     &kp L    &kp UP    &kp RET   &kp SEMI
                 &kp LCTRL &kp Z     &kp X     &kp C     &kp V    &kp B    &kp PG_DN               &kp N    &kp M     &kp COMMA &kp DOT  &kp DOWN  &kp RIGHT &kp SQT
                                             &kp G      &kp E                                      &kp RET  &kp G
-                                                      &kp RET    &none              &kp PSCREEN &kp END
-                                                      &kp BSPC   &kp DEL            &kp NUM    &kp RGUI
+                                                      &kp RET    &none              &kp PSCR   &kp END
+                                                      &kp BSPC   &kp DEL            &kp LNLCK  &kp RGUI
                                             &none       &none              &kp BSLH &kp LEFT
             >;
         };
