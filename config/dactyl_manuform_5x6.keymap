@@ -14,15 +14,16 @@
 
         default_layer {
             bindings = <
-                &kp ESC   &kp F1    &kp F2    &kp F3    &kp F4   &kp F5   &kp F6                  &kp F7   &kp F8    &kp F9    &kp F10  &kp F11   &kp F12   &kp BSPC
-                &kp GRAVE &kp N1    &kp N2    &kp N3    &kp N4   &kp N5   &kp HOME                &kp N6   &kp N7    &kp N8    &kp N9   &kp N0    &kp MINUS &kp LBKT
-                &kp TAB   &kp Q     &kp W     &kp E     &kp R    &kp T    &kp END                 &kp Y    &kp U     &kp I     &kp O    &kp P     &kp EQUAL &kp RBKT
-                &kp LSHFT &kp A     &kp S     &kp D     &kp F    &kp G    &kp PG_UP               &kp H    &kp J     &kp K     &kp L    &kp UP    &kp RET   &kp SEMI
-                &kp LCTRL &kp Z     &kp X     &kp C     &kp V    &kp B    &kp PG_DN               &kp N    &kp M     &kp COMMA &kp DOT  &kp DOWN  &kp RIGHT &kp SQT
-                &kp A       &kp B                                              &kp J      &kp K
-                &kp C       &kp D                                              &kp L      &kp M
-                &kp E       &kp F                                              &kp N      &kp O
-                &kp G       &kp H                                              &kp P      &kp Q
+                &kp ESC   &kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &kp F6                 &kp F7   &kp F8    &kp F9    &kp F10   &kp F11   &kp F12   &kp BSPC
+                &kp GRAVE &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &kp HOME               &kp N6   &kp N7    &kp N8    &kp N9    &kp N0    &kp MINUS &kp LBKT
+                &kp TAB   &kp Q     &kp W     &kp E     &kp R     &kp T     &kp END                &kp Y    &kp U     &kp I     &kp O     &kp P     &kp EQUAL &kp RBKT
+                &kp LSHFT &kp A     &kp S     &kp D     &kp F     &kp G     &kp PG_UP              &kp H    &kp J     &kp K     &kp L     &kp UP    &kp RET   &kp SEMI
+                &kp LCTRL &kp Z     &kp X     &kp C     &kp V     &kp B     &kp PG_DN              &kp N    &kp M     &kp COMMA &kp DOT   &kp DOWN  &kp RIGHT &kp SQT
+
+                        &kp A   &kp B                                                   &kp J   &kp K
+                                &kp C   &kp D                                           &kp L   &kp M
+                                &kp E   &kp F                                           &kp N   &kp O
+                                &kp G   &kp H                                           &kp P   &kp Q
             >;
         };
 
