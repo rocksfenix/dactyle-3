@@ -19,10 +19,9 @@
                 &kp TAB   &kp Q     &kp W     &kp E     &kp R    &kp T    &kp END                 &kp Y    &kp U     &kp I     &kp O    &kp P     &kp EQUAL &kp RBKT
                 &kp LSHFT &kp A     &kp S     &kp D     &kp F    &kp G    &kp PG_UP               &kp H    &kp J     &kp K     &kp L    &kp UP    &kp RET   &kp SEMI
                 &kp LCTRL &kp Z     &kp X     &kp C     &kp V    &kp B    &kp PG_DN               &kp N    &kp M     &kp COMMA &kp DOT  &kp DOWN  &kp RIGHT &kp SQT
-                /* Non-matrix keys (2 lower + 6 thumbs per side), grouped by transform rows */
                                             &kp N1      &kp N2                                      &kp RET   &kp G
-                                                      &kp RET    &kp N3              &kp PSCR  &kp END
-                                                      &kp N4     &kp N5              &kp LNLCK &kp RGUI
+                                                      &kp RET    &kp N3              &kp INS   &kp END
+                                                      &kp N4     &kp N5              &kp PG_DN &kp RGUI
                                             &kp N6      &kp N7              &kp BSLH  &kp LEFT
             >;
         };
