@@ -1,4 +1,5 @@
 #include "dactyl_manuform_5x6.dtsi" // Notice that the main dtsi files are included in the overlay.
+#include <dt-bindings/zmk/hid_indicators.h>
 
 &kscan0 {
     col-gpios
@@ -10,4 +11,44 @@
         , <&gpio1 4 GPIO_ACTIVE_HIGH>
         , <&gpio1 6 GPIO_ACTIVE_HIGH>
         ;
+};
+
+/ {
+	leds {
+		compatible = "gpio-leds";
+
+		cp_led: led_cp {
+			gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;
+			label = "CP";
+		};
+
+		l1_led: led_l1 {
+			gpios = <&gpio0 8 GPIO_ACTIVE_LOW>;
+			label = "L1";
+		};
+
+		l2_led: led_l2 {
+			gpios = <&gpio0 17 GPIO_ACTIVE_LOW>;
+			label = "L2";
+		};
+	};
+
+	indicators {
+		compatible = "zmk,indicator-leds";
+
+		num_lock_indicator: num_lock {
+			indicator = <HID_INDICATOR_NUM_LOCK>;
+			leds = <&cp_led>;
+		};
+
+		caps_lock_indicator: caps_lock {
+			indicator = <HID_INDICATOR_CAPS_LOCK>;
+			leds = <&l1_led>;
+		};
+
+		scroll_lock_indicator: scroll_lock {
+			indicator = <HID_INDICATOR_SCROLL_LOCK>;
+			leds = <&l2_led>;
+		};
+	};
 };

@@ -15,3 +15,24 @@
         , <&gpio0 20 GPIO_ACTIVE_HIGH>
         ;
 };
+
+
+/ {
+	aliases {
+		indicator-led = &right_led_a;
+	};
+
+	leds {
+		compatible = "gpio-leds";
+
+		right_led_a: led_right_a {
+			gpios = <&gpio0 8 GPIO_ACTIVE_LOW>;
+			label = "Right LED A";
+		};
+
+		right_led_b: led_right_b {
+			gpios = <&gpio0 17 GPIO_ACTIVE_LOW>;
+			label = "Right LED B";
+		};
+	};
+};
