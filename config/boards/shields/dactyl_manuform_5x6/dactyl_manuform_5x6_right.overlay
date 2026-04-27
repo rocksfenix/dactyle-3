@@ -1,5 +1,4 @@
 #include "dactyl_manuform_5x6.dtsi"
-#include <dt-bindings/zmk/hid_indicators.h>
 
 &default_transform { // The matrix transform for this board is 6 columns over because the left half is 6 columns wide according to the matrix.
     col-offset = <7>;
@@ -30,26 +29,6 @@
 		right_led_b: led_right_b {
 			gpios = <&gpio0 17 GPIO_ACTIVE_LOW>;
 			label = "Right LED B";
-		};
-	};
-
-	indicators {
-		compatible = "zmk,indicator-leds";
-
-		right_caps_lock_indicator: right_caps_lock {
-			indicator = <HID_INDICATOR_CAPS_LOCK>;
-			leds = <&right_led_a>;
-			active-brightness = <100>;
-			inactive-brightness = <0>;
-			disconnected-brightness = <100>;
-		};
-
-		right_num_lock_indicator: right_num_lock {
-			indicator = <HID_INDICATOR_NUM_LOCK>;
-			leds = <&right_led_b>;
-			active-brightness = <100>;
-			inactive-brightness = <0>;
-			disconnected-brightness = <100>;
 		};
 	};
 };
