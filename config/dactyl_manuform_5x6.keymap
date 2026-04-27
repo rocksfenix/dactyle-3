@@ -20,7 +20,7 @@
                 &kp LSHFT &kp A     &kp S     &kp D     &kp F     &kp G     &kp PG_UP              &kp H    &kp J     &kp K     &kp L     &kp UP    &kp RET   &kp SEMI
                 &kp LCTRL &kp Z     &kp X     &kp C     &kp V     &kp B     &kp PG_DN              &kp N    &kp M     &kp COMMA &kp DOT   &kp DOWN  &kp RIGHT &kp SQT
 
-                        &kp A   &kp B                                                   &kp J   &kp K
+                        &kp A   &kp B                                                                       &kp J   &kp K
                                 &kp C   &kp D                                           &kp L   &kp M
                                 &kp E   &kp F                                           &kp N   &kp O
                                 &kp G   &kp H                                           &kp P   &kp Q
