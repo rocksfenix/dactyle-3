@@ -39,16 +39,25 @@
 		num_lock_indicator: num_lock {
 			indicator = <HID_INDICATOR_NUM_LOCK>;
 			leds = <&cp_led>;
+			active-brightness = <100>;
+			inactive-brightness = <0>;
+			disconnected-brightness = <100>;
 		};
 
 		caps_lock_indicator: caps_lock {
 			indicator = <HID_INDICATOR_CAPS_LOCK>;
 			leds = <&l1_led>;
+			active-brightness = <100>;
+			inactive-brightness = <0>;
+			disconnected-brightness = <100>;
 		};
 
 		scroll_lock_indicator: scroll_lock {
 			indicator = <HID_INDICATOR_SCROLL_LOCK>;
 			leds = <&l2_led>;
+			active-brightness = <100>;
+			inactive-brightness = <0>;
+			disconnected-brightness = <100>;
 		};
 	};
 };
