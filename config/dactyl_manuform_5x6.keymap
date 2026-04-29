@@ -69,7 +69,7 @@
             flavor = "tap-preferred";
             tapping-term-ms = <250>;
             quick-tap-ms = <0>;
-            bindings = <&none>, <&kp DELETE>;
+            bindings = <&none &kp DELETE>;
         };
     };
 };
