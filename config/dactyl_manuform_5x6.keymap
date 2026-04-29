@@ -4,6 +4,12 @@
 #include <dt-bindings/zmk/outputs.h>
 
 
+#define DEFAULT 0
+#define MOVE 1
+#define NUMBERS 2
+#define ADJUST 3
+#define AOE2 4
+
 / {
     macros {
         // Macro para la ñ en Windows EN (Alt + 0241)
@@ -56,13 +62,6 @@
         };
     };
 };
-
-
-#define DEFAULT 0
-#define MOVE 1
-#define NUMBERS 2
-#define ADJUST 3
-#define AOE2 4
 
 / {
     keymap {
