@@ -45,8 +45,8 @@
         default_layer {
             bindings = <
                 &kp ESC   &kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &kp GRAVE           &kp LEFT_BRACKET      &kp AMPERSAND      &kp PIPE    &kp QUESTION     &kp EXCLAMATION     &kp F11     &kp BSPC
-                &kp TAB   &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &kp DOUBLE_QUOTES   &kp LEFT_PARENTHESIS  &kp N6             &kp N7      &kp N8           &kp N9              &kp N0      &kp DELETE
-                &kp ESC   &kp Q     &kp W     &kp E     &kp R     &kp T     &kp SINGLE_QUOTE    &kp LEFT_BRACE        &kp Y              &kp U       &kp I            &kp O               &kp P       &kp RBKT
+                &kp TAB   &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &kp DOUBLE_QUOTES   &kp LEFT_PARENTHESIS  &kp N6             &kp N7      &kp N8           &kp N9              &kp N0      &kp BSPC
+                &kp ESC   &kp Q     &kp W     &kp E     &kp R     &kp T     &kp SINGLE_QUOTE    &kp LEFT_BRACE        &kp Y              &kp U       &kp I            &kp O               &kp P       &kp DELETE
                 &kp LSHFT &kp A     &kp S     &kp D     &kp F     &kp G     &kp GREATER_THAN    &kp LESS_THAN         &kp H              &kp J       &kp K            &kp L               &kp SEMI    &kp MINUS
                 &kp LCTRL &kp Z     &kp X     &kp C     &kp V     &kp B     &kp UNDERSCORE      &kp EQUAL             &td_n              &kp M       &kp COMMA        &kp DOT             &kp FSLH    &kp BACKSLASH
                          &kp LEFT_GUI  &kp LEFT_ALT                                                                   &trans  &trans
