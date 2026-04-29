@@ -28,7 +28,7 @@
             wait-ms = <20>;
             bindings
                 = <&macro_tap &kp SCROLLLOCK>
-                , <&macro_tap &to AOE2>
+                , <&to AOE2>
                 ;
         };
 
@@ -40,7 +40,7 @@
             wait-ms = <20>;
             bindings
                 = <&macro_tap &kp SCROLLLOCK>
-                , <&macro_tap &to DEFAULT>
+                , <&to DEFAULT>
                 ;
         };
     };
