@@ -6,15 +6,41 @@
 
 / {
     macros {
-        // Macro para la ñ (Alt + 164)
+        // Macro para la ñ en Windows EN (Alt + 0241)
         enye: enye {
             compatible = "zmk,behavior-macro";
             label = "Ñ";
             #binding-cells = <0>;
+            tap-ms = <30>;
+            wait-ms = <20>;
             bindings
                 = <&macro_press &kp LALT>
-                , <&macro_tap &kp KP_N1 &kp KP_N6 &kp KP_N4>
+                , <&macro_tap &kp KP_N0 &kp KP_N2 &kp KP_N4 &kp KP_N1>
                 , <&macro_release &kp LALT>
+                ;
+        };
+
+        aoe2_on: aoe2_on {
+            compatible = "zmk,behavior-macro";
+            label = "AOE2_ON";
+            #binding-cells = <0>;
+            tap-ms = <30>;
+            wait-ms = <20>;
+            bindings
+                = <&macro_tap &kp SCROLLLOCK>
+                , <&macro_tap &to AOE2>
+                ;
+        };
+
+        aoe2_off: aoe2_off {
+            compatible = "zmk,behavior-macro";
+            label = "AOE2_OFF";
+            #binding-cells = <0>;
+            tap-ms = <30>;
+            wait-ms = <20>;
+            bindings
+                = <&macro_tap &kp SCROLLLOCK>
+                , <&macro_tap &to DEFAULT>
                 ;
         };
     };
@@ -62,7 +88,7 @@
                 &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &trans    &trans    &trans    &trans    &trans  
                 &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &trans    &trans    &trans    &trans    &trans  
                 &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT &trans    &trans    
-                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &trans    &trans    &trans    &trans    &trans 
+                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &kp KP_NUMLOCK   &trans    &trans    &trans    &trans    &trans   &aoe2_on
                         &trans  &trans                                                                   &trans  &trans
                                 &trans  &trans                                        &trans  &trans 
                                 &trans  &trans                                        &trans  &trans 
@@ -100,16 +126,17 @@
 
         age_of_empires_2_layer {
             bindings = <
-                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &trans    &trans    &trans    &trans    &trans 
+             &kp DELETE   &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &trans    &trans    &trans    &trans    &trans 
                 &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &trans    &trans    &trans    &trans    &trans  
-                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &trans    &trans    &trans    &trans    &trans  
-                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &kp LEFT &kp DOWN  &kp UP    &kp RIGHT &trans    &trans    &trans 
-                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &trans    &trans    &trans    &trans    &trans 
+                &trans    &trans    &trans    &trans    &trans    &trans    &kp I                 &trans   &trans    &trans    &trans    &trans    &trans    &trans  
+                &trans    &trans    &trans    &trans    &trans    &trans    &kp FSLH              &kp LEFT &kp DOWN  &kp UP    &kp RIGHT &trans    &trans    &trans 
+                &trans    &trans    &trans    &trans    &trans    &trans    &kp O                 &trans   &trans    &trans    &trans    &trans    &trans    &aoe2_off
                         &trans  &trans                                                                   &trans  &trans
-                                &trans  &trans                                        &trans  &trans 
-                                &trans  &trans                                        &trans  &trans 
-                                &trans  &trans                                        &trans  &trans 
+                                &kp LCTRL  &kp LC(LSHFT)                                       &trans  &trans 
+                                &kp LALT  &trans                                        &trans  &trans 
+                                &kp HOME  &kp DOT                                        &trans  &trans 
             >;
         };
     };
 };
+ 
