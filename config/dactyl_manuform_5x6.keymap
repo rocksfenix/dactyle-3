@@ -2,11 +2,42 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/outputs.h>
+#include <dt-bindings/zmk/macros.h>
+
+
+/ {
+    macros {
+        // Macro para la ñ (Alt + 164)
+        enye: enye {
+            compatible = "zmk,behavior-macro";
+            label = "Ñ";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LALT>
+                , <&macro_tap &kp KP_N1 &kp KP_N6 &kp KP_N4>
+                , <&macro_release &kp LALT>
+                ;
+        };
+    };
+
+    behaviors {
+        // Tap Dance: 1 tap = n    |    2 taps = ñ
+        td_n: tap_dance_n {
+            compatible = "zmk,behavior-tap-dance";
+            label = "TAP_DANCE_N";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;     // Tiempo máximo entre los dos toques (ajusta si quieres más rápido/lento)
+            bindings = <&kp N>, <&enye>;
+        };
+    };
+};
+
 
 #define DEFAULT 0
-#define LWR 1
-#define RSE 2
-#define ADJ 3
+#define MOVE 1
+#define NUMBERS 2
+#define ADJUST 3
+#define AOE2 4
 
 / {
     keymap {
@@ -14,58 +45,71 @@
 
         default_layer {
             bindings = <
-                &bootloader   &kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &sys_reset                &bootloader   &kp F8    &kp F9    &kp F10   &kp F11   &sys_reset   &kp BSPC
-                &kp GRAVE &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &kp HOME               &kp N6   &kp N7    &kp N8    &kp N9    &kp N0    &kp MINUS &kp LBKT
-                &kp TAB   &kp Q     &kp W     &kp E     &kp R     &kp T     &kp END                &kp Y    &kp U     &kp I     &kp O     &kp P     &kp EQUAL &kp RBKT
-                &kp LSHFT &kp A     &kp S     &kp D     &kp F     &kp G     &kp PG_UP              &kp H    &kp J     &kp K     &kp L     &kp UP    &kp RET   &kp SEMI
-                &kp LCTRL &kp Z     &kp X     &kp C     &kp V     &kp B     &kp PG_DN              &kp N    &kp M     &kp COMMA &kp DOT   &kp DOWN  &kp RIGHT &kp SQT
-
-                        &kp A   &kp B                                                                       &kp J   &kp K
-                                &kp C   &kp D                                           &kp L   &kp M
-                                &kp E   &kp F                                           &kp N   &kp O
-                                &kp G   &mo ADJ                                          &kp P   &kp Q
+                &kp ESC   &kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &kp GRAVE           &kp LEFT_BRACKET      &kp AMPERSAND      &kp PIPE    &kp QUESTION     &kp EXCLAMATION     &kp F11     &kp BSPC
+                &kp TAB   &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &kp DOUBLE_QUOTES   &kp LEFT_PARENTHESIS  &kp N6             &kp N7      &kp N8           &kp N9              &kp N0      &kp DELETE
+                &kp ESC   &kp Q     &kp W     &kp E     &kp R     &kp T     &kp SINGLE_QUOTE    &kp LEFT_BRACE        &kp Y              &kp U       &kp I            &kp O               &kp P       &kp RBKT
+                &kp LSHFT &kp A     &kp S     &kp D     &kp F     &kp G     &kp GREATER_THAN    &kp LESS_THAN         &kp H              &kp J       &kp K            &kp L               &kp SEMI    &kp MINUS
+                &kp LCTRL &kp Z     &kp X     &kp C     &kp V     &kp B     &kp UNDERSCORE      &kp EQUAL             &td_n              &kp M       &kp COMMA        &kp DOT             &kp FSLH    &kp BACKSLASH
+                         &kp LEFT_GUI  &kp LEFT_ALT                                                                   &trans  &trans
+                                &trans  &kp SPACE                                                                &kp ENTER  &trans 
+                                &trans  &trans                                                                &mo MOVE  &trans 
+                                &trans  &trans                                                                &trans    &trans 
             >;
         };
 
-        lower_layer {
+        move_layer {
             bindings = <
-                &kp F12  &kp F1   &kp F2   &kp F3   &kp F4   &kp F5   &kp F6                 &kp F7   &kp F8   &kp F9   &kp F10  &kp F11  &trans    &trans
-                &trans   &trans   &trans   &trans   &trans   &trans   &trans                 &trans   &trans   &trans   &trans   &trans   &trans    &trans
-                &trans   &trans   &trans   &trans   &trans   &trans   &trans                 &trans   &kp LEFT &kp DOWN &kp UP   &kp RIGHT &trans   &trans
-                &trans   &trans   &trans   &trans   &trans   &trans   &trans                 &trans   &trans   &trans   &trans   &trans   &trans    &trans
-                &trans   &trans   &trans   &trans   &trans   &trans   &trans                 &trans   &trans   &trans   &trans   &trans   &trans    &trans
-                                            &trans   &trans                                     &trans   &mo ADJ
-                                                      &trans   &trans              &trans   &trans
-                                                      &trans   &trans              &trans   &trans
-                                            &trans   &trans              &trans   &trans
+                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &trans    &trans    &trans    &trans    &trans
+                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &trans    &trans    &trans    &trans    &trans  
+                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &trans    &trans    &trans    &trans    &trans  
+                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT &trans    &trans    
+                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &trans    &trans    &trans    &trans    &trans 
+                        &trans  &trans                                                                   &trans  &trans
+                                &trans  &trans                                        &trans  &trans 
+                                &trans  &trans                                        &trans  &trans 
+                                &trans  &trans                                        &trans  &trans 
             >;
         };
 
-        raise_layer {
+        numbers_layer {
             bindings = <
-                &trans   &trans   &trans   &trans   &trans   &trans   &trans               &trans   &trans    &trans    &trans    &trans     &trans     &trans
-                &trans   &trans   &trans   &trans   &trans   &trans   &trans               &trans   &trans    &trans    &trans    &trans     &trans     &kp K_VOL_UP
-                &trans   &trans   &trans   &trans   &trans   &trans   &trans               &trans   &trans    &trans    &trans    &trans     &trans     &kp K_VOL_DN
-                &trans   &trans   &trans   &trans   &trans   &trans   &trans               &trans   &trans    &trans    &trans    &trans     &trans     &kp K_MUTE
-                &trans   &trans   &trans   &trans   &trans   &trans   &trans               &trans   &trans    &trans    &trans    &trans     &trans     &trans
-                                             &mo ADJ &trans                                     &trans   &trans
-                                                      &trans  &trans               &trans   &trans
-                                                      &trans  &trans               &trans   &trans
-                                             &trans  &trans               &trans   &trans
+                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans  &kp HASH   &kp PERCENT   &trans      &trans      &trans          &trans  
+                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &kp N7       &kp N8        &kp N9     &kp ASTERISK    &trans  
+                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &kp N4       &kp N5        &kp N6     &kp KP_MINUS    &trans  
+                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &kp N1       &kp N2        &kp N3     &kp KP_PLUS     &trans
+                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &kp N0       &kp SLASH     &trans     &trans          &trans 
+                        &trans  &trans                                                                   &trans  &trans
+                                &trans  &trans                                        &trans  &trans 
+                                &trans  &trans                                        &trans  &trans 
+                                &trans  &trans                                        &trans  &trans 
             >;
         };
 
         adjust_layer {
             bindings = <
-                &studio_unlock &bt BT_SEL 0 &out OUT_BLE &none &none &none &none    &none       &none &none &none &none &none &none
-                &none &bt BT_SEL 1 &out OUT_USB &none &none &none &none            &none       &none &none &none &none &none &none
-                &none &bt BT_SEL 2 &none        &none &none &none &none            &none       &none &none &none &none &none &none
-                &none &bt BT_SEL 3 &bt BT_CLR   &none &none &bootloader &bootloader &none      &none &none &none &none &none &none
-                &none &none        &none        &none &none &none &none            &none       &none &none &none &none &none &none
-                                                     &none &none                     &none &none
-                                                            &none &none         &none &none
-                                                            &none &none         &none &none
-                                                     &none &none         &none &none
+                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &trans    &trans    &trans    &trans    &trans 
+                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &trans    &trans    &trans    &trans    &trans  
+                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &trans    &trans    &trans    &trans    &trans  
+                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &kp LEFT &kp DOWN  &kp UP    &kp RIGHT &trans    &trans    &trans 
+                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &trans    &trans    &trans    &trans    &trans 
+                        &trans  &trans                                                                   &trans  &trans
+                                &trans  &trans                                        &trans  &trans 
+                                &trans  &trans                                        &trans  &trans 
+                                &trans  &trans                                        &trans  &trans 
+            >;
+        };
+
+        age_of_empires_2_layer {
+            bindings = <
+                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &trans    &trans    &trans    &trans    &trans 
+                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &trans    &trans    &trans    &trans    &trans  
+                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &trans    &trans    &trans    &trans    &trans  
+                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &kp LEFT &kp DOWN  &kp UP    &kp RIGHT &trans    &trans    &trans 
+                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &trans    &trans    &trans    &trans    &trans 
+                        &trans  &trans                                                                   &trans  &trans
+                                &trans  &trans                                        &trans  &trans 
+                                &trans  &trans                                        &trans  &trans 
+                                &trans  &trans                                        &trans  &trans 
             >;
         };
     };

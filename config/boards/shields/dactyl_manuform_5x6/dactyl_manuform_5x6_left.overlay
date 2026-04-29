@@ -14,6 +14,10 @@
 };
 
 / {
+	aliases {
+		indicator-led = &l1_led;
+	};
+
 	leds {
 		compatible = "gpio-leds";
 
