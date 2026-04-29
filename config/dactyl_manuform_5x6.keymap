@@ -86,7 +86,7 @@
                 &kp LSHFT &kp A     &kp S     &kp D     &kp F     &kp G     &kp GREATER_THAN         &kp LESS_THAN         &kp H              &kp J       &kp K            &kp L               &kp SEMI    &kp MINUS
                 &kp LCTRL &kp Z     &kp X     &kp C     &kp V     &kp B     &kp GRAVE                &kp EQUAL             &td_n              &kp M       &kp COMMA        &kp DOT             &kp FSLH    &kp BACKSLASH
                          &kp LEFT_GUI  &kp LEFT_ALT                                                                   &trans  &trans
-                                &mo MOVE  &kp SPACE                                                                &kp ENTER  &trans 
+                                &kp SPACE  &mo MOVE                                                                  &kp ENTER   &kp ENTER
                                 &mo NUMBERS  &trans                                                                &mo MOVE  &trans 
                                 &trans  &trans                                                                &trans    &trans 
             >;
@@ -94,7 +94,7 @@
 
         move_layer {
             bindings = <
-                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &trans    &trans    &trans    &trans    &trans
+                &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &trans    &trans    &trans    &trans    &studio_unlock
                 &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &trans    &trans    &trans    &trans    &trans  
                 &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &trans    &trans    &trans    &trans    &trans    &trans  
                 &trans    &trans    &trans    &trans    &trans    &trans    &trans                 &trans   &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT &trans    &trans    
