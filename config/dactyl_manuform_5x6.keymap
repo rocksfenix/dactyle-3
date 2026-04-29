@@ -50,8 +50,8 @@
                 &kp LSHFT &kp A     &kp S     &kp D     &kp F     &kp G     &kp GREATER_THAN    &kp LESS_THAN         &kp H              &kp J       &kp K            &kp L               &kp SEMI    &kp MINUS
                 &kp LCTRL &kp Z     &kp X     &kp C     &kp V     &kp B     &kp UNDERSCORE      &kp EQUAL             &td_n              &kp M       &kp COMMA        &kp DOT             &kp FSLH    &kp BACKSLASH
                          &kp LEFT_GUI  &kp LEFT_ALT                                                                   &trans  &trans
-                                &trans  &kp SPACE                                                                &kp ENTER  &trans 
-                                &trans  &trans                                                                &mo MOVE  &trans 
+                                &mo MOVE  &kp SPACE                                                                &kp ENTER  &trans 
+                                &mo NUMBERS  &trans                                                                &mo MOVE  &trans 
                                 &trans  &trans                                                                &trans    &trans 
             >;
         };
