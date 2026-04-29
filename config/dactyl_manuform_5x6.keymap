@@ -65,11 +65,11 @@
         hold_delete: hold_delete {
             compatible = "zmk,behavior-hold-tap";
             label = "HOLD_DELETE";
-            #binding-cells = <2>;
+            #binding-cells = <1>;
             flavor = "tap-preferred";
             tapping-term-ms = <250>;
             quick-tap-ms = <0>;
-            bindings = <&kp &kp>;
+            bindings = <&none &kp>;
         };
     };
 };
@@ -136,7 +136,7 @@
 
         age_of_empires_2_layer {
             bindings = <
-                &trans    &trans    &trans    &trans    &trans    &trans    &hold_delete 0 DELETE &trans   &trans    &trans    &trans    &trans    &trans    &trans 
+                &trans    &trans    &trans    &trans    &trans    &trans    &hold_delete DELETE   &trans   &trans    &trans    &trans    &trans    &trans    &trans 
                 &trans    &trans    &trans    &trans    &trans    &trans    &trans                &trans   &trans    &trans    &trans    &trans    &trans    &trans  
                 &trans    &trans    &trans    &trans    &trans    &trans    &kp I                 &trans   &trans    &trans    &trans    &trans    &trans    &trans  
                 &trans    &trans    &trans    &trans    &trans    &trans    &kp FSLH              &trans  &trans   &trans     &trans  &trans    &trans    &trans 
