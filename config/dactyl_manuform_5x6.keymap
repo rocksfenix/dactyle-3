@@ -144,7 +144,7 @@
                         &trans  &trans                                                                   &trans  &trans
                                 &kp LCTRL &kp LC(LSHFT)                                       &trans  &trans 
                                 &kp LALT  &trans                                        &trans  &trans 
-                                &kp HOME  &kp DOT                                        &trans  &trans 
+                                &kp DOT  &kp HOME                                        &trans  &trans 
             >;
         };
     };
