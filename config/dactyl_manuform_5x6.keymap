@@ -136,7 +136,7 @@
 
         age_of_empires_2_layer {
             bindings = <
-                &trans    &trans    &trans    &trans    &trans    &trans    &hold_delete DELETE 0 &trans   &trans    &trans    &trans    &trans    &trans    &trans 
+                &trans    &trans    &trans    &trans    &trans    &trans    &kp DELETE            &trans   &trans    &trans    &trans    &trans    &trans    &trans 
                 &trans    &trans    &trans    &trans    &trans    &trans    &trans                &trans   &trans    &trans    &trans    &trans    &trans    &trans  
                 &trans    &trans    &trans    &trans    &trans    &trans    &kp I                 &trans   &trans    &trans    &trans    &trans    &trans    &trans  
                 &trans    &trans    &trans    &trans    &trans    &trans    &kp FSLH              &trans  &trans   &trans     &trans  &trans    &trans    &trans 
