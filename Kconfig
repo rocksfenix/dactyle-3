@@ -1,0 +1,16 @@
+config DACTYL_LEDS
+    bool "Dactyl Manuform status LEDs (mode layer, right-half alerts, battery)"
+    select LED
+    imply ZMK_SPLIT_BLE_CENTRAL_BATTERY_LEVEL_FETCHING
+
+if DACTYL_LEDS
+
+config DACTYL_LEDS_MODE_LAYER
+    int "Layer that keeps the blue LED on while active"
+    default 4
+
+config DACTYL_LEDS_BATTERY_LOW
+    int "Battery percentage at or below which low battery is signalled"
+    default 15
+
+endif
