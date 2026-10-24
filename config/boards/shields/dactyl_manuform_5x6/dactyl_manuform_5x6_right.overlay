@@ -29,13 +29,13 @@
 
 / {
 	aliases {
-		dactyl-led-red = &red_led;
+		dactyl-led-red = &status_red_led;
 	};
 
 	leds {
 		compatible = "gpio-leds";
 
-		red_led: led_red {
+		status_red_led: led_red {
 			gpios = <&gpio0 8 GPIO_ACTIVE_LOW>;
 			label = "Red";
 		};

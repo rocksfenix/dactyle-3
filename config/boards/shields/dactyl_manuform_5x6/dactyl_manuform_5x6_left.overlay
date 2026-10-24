@@ -15,25 +15,27 @@
 
 / {
 	// Green and blue are driven by src/dactyl_leds.c; red is Caps Lock below.
+	// These merge into the nice!nano's own leds node, which already uses the
+	// blue_led label for its onboard LED, hence the status_ prefix.
 	aliases {
-		dactyl-led-green = &green_led;
-		dactyl-led-blue = &blue_led;
+		dactyl-led-green = &status_green_led;
+		dactyl-led-blue = &status_blue_led;
 	};
 
 	leds {
 		compatible = "gpio-leds";
 
-		green_led: led_green {
+		status_green_led: led_green {
 			gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;
 			label = "Green (CP)";
 		};
 
-		red_led: led_red {
+		status_red_led: led_red {
 			gpios = <&gpio0 8 GPIO_ACTIVE_LOW>;
 			label = "Red (L1)";
 		};
 
-		blue_led: led_blue {
+		status_blue_led: led_blue {
 			gpios = <&gpio0 17 GPIO_ACTIVE_LOW>;
 			label = "Blue (L2)";
 		};
@@ -44,7 +46,7 @@
 
 		caps_lock_indicator: caps_lock {
 			indicator = <HID_INDICATOR_CAPS_LOCK>;
-			leds = <&red_led>;
+			leds = <&status_red_led>;
 		};
 	};
 };
