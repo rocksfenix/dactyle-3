@@ -121,7 +121,7 @@
                 &trans       &trans        &trans        &trans        &trans      &trans       &trans             &trans          &trans        &trans       &trans     &trans         &trans        &trans
                 &trans       &trans        &trans        &trans        &trans      &trans       &kp I              &trans          &trans        &trans       &trans     &trans         &trans        &trans
                 &trans       &trans        &trans        &trans        &trans      &trans       &kp FSLH           &trans          &trans        &trans       &trans     &trans         &trans        &trans
-                &trans       &trans        &trans        &trans        &trans      &trans       &kp O              &trans          &trans        &trans       &trans     &trans         &trans        &to DEFAULT
+                &kp M        &trans        &trans        &trans        &trans      &trans       &kp O              &trans          &trans        &trans       &trans     &trans         &trans        &to DEFAULT
 
                                                                           &trans            &trans                 &trans      &trans
                                                                           &kp LCTRL         &kp LC(LSHFT)          &trans      &trans
