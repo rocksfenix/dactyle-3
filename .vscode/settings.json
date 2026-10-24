@@ -1,0 +1,7 @@
+{
+  "editor.formatOnSave": false,
+  "editor.formatOnPaste": false,
+  "editor.formatOnType": false,
+  "headwind.runOnSave": false,
+  "devicetree.maxLineLength": 10000
+}
