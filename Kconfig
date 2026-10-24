@@ -9,6 +9,10 @@ config DACTYL_LEDS_MODE_LAYER
     int "Layer that keeps the blue LED on while active"
     default 4
 
+config DACTYL_LEDS_ADJUST_LAYER
+    int "Layer that keeps the green LED on while active (left half)"
+    default 5
+
 config DACTYL_LEDS_BATTERY_LOW
     int "Battery percentage at or below which low battery is signalled"
     default 15

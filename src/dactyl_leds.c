@@ -7,7 +7,8 @@
  *            itself, so it can never drift from the real layer state.
  *   - green: alerts about the right half. Slow blink while it is disconnected,
  *            a double blink every few seconds while its battery is low, and
- *            1-3 blinks with its battery level each time it connects.
+ *            1-3 blinks with its battery level each time it connects. While the
+ *            Adjust layer is active it stays solidly on instead.
  *
  * Right half (peripheral, battery):
  *   - red:   battery level on boot (2 slow / 4 medium / 6 fast blinks), two quick
@@ -66,6 +67,16 @@ K_MSGQ_DEFINE(blink_queue, sizeof(struct blink), 8, 4);
 // Central: the right half is connected. Peripheral: linked with the left half.
 static atomic_t link_up;
 static atomic_t battery_low;
+// Keeps the alert LED solidly on (central: while Adjust is active); blinks still run but can't turn it off.
+static atomic_t alert_held;
+
+static void set_alert_led(bool on) {
+    if (on || atomic_get(&alert_held)) {
+        led_on(alert_dev, alert_idx);
+    } else {
+        led_off(alert_dev, alert_idx);
+    }
+}
 
 static void enqueue(struct blink b) { k_msgq_put(&blink_queue, &b, K_NO_WAIT); }
 
@@ -74,9 +85,9 @@ static void wake(void) { enqueue((struct blink){0}); }
 
 static void play(const struct blink *b) {
     for (int i = 0; i < b->count; i++) {
-        led_on(alert_dev, alert_idx);
+        set_alert_led(true);
         k_msleep(b->on_ms);
-        led_off(alert_dev, alert_idx);
+        set_alert_led(false);
         k_msleep(b->off_ms);
     }
 }
@@ -197,9 +208,18 @@ static void update_mode_led(void) {
 #endif
 }
 
+static void update_adjust_led(void) {
+    bool held = zmk_keymap_layer_active(CONFIG_DACTYL_LEDS_ADJUST_LAYER);
+    // Only touch the LED when Adjust toggles, so other layer changes don't cut an alert blink short.
+    if (atomic_set(&alert_held, held) != held) {
+        set_alert_led(false);
+    }
+}
+
 static int dactyl_leds_listener(const zmk_event_t *eh) {
     if (as_zmk_layer_state_changed(eh)) {
         update_mode_led();
+        update_adjust_led();
         return ZMK_EV_EVENT_BUBBLE;
     }
 
