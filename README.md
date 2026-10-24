@@ -10,6 +10,18 @@ Compatible with nice!nano v2, SuperMini nRF52840, and Pro Micro nRF52840 control
 
 For complete setup instructions and documentation, visit the [official TaikoHub Dactyl Manuform documentation](https://docs.taikohub.com).
 
+## Keymap and LED reference
+
+[`docs/keymap.html`](docs/keymap.html) shows every layer and what each status LED means. It is a single self-contained file: open it in any browser.
+
+Regenerate it after changing the keymap, the LED options in `Kconfig`, or the LED patterns:
+
+```bash
+node tools/keymap-doc.mjs
+```
+
+Layers and how to reach them are read from the keymap automatically. Two things are maintained by hand at the top of `tools/keymap-doc.mjs`: labels for keycodes it does not know yet (they appear as the raw keycode), and the LED patterns, which must match `src/dactyl_leds.c`. Page layout and styling live in `tools/keymap-doc.template.html`.
+
 
 
 ## Instructions

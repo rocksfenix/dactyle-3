@@ -1,0 +1,215 @@
+<!doctype html>
+<!-- Template for docs/keymap.html. Edit this file for layout and styling; the data is injected by tools/keymap-doc.mjs. -->
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dactyl keymap</title>
+<style>
+  :root {
+    --bg: #f7f6f2; --card: #ffffff; --text: #1f1e1c; --muted: #6b6a65; --faint: #a3a19a;
+    --line: #dddbd3; --line-strong: #c4c2b9; --key: #ffffff; --key-mod: #f0eee7;
+    --sym-bg: #e6f1fb; --sym-fg: #0c447c; --sym-line: #85b7eb;
+    --nav-bg: #eaf3de; --nav-fg: #27500a; --nav-line: #97c459;
+    --util-bg: #eeedfe; --util-fg: #3c3489; --util-line: #afa9ec;
+    --layer-bg: #faeeda; --layer-fg: #633806; --layer-line: #ef9f27;
+    --sys-bg: #fcebeb; --sys-fg: #791f1f; --sys-line: #f09595;
+    --led-off: #d9d7cf;
+    --led-red: #e5322d; --led-green: #2fbf4a; --led-blue: #2f7df6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1b; --card: #262624; --text: #ecebe6; --muted: #a3a19a; --faint: #6f6d67;
+      --line: #3a3936; --line-strong: #504e4a; --key: #2c2c2a; --key-mod: #333330;
+      --sym-bg: #0c2a47; --sym-fg: #b5d4f4; --sym-line: #185fa5;
+      --nav-bg: #1f3209; --nav-fg: #c0dd97; --nav-line: #3b6d11;
+      --util-bg: #2a2560; --util-fg: #cecbf6; --util-line: #534ab7;
+      --layer-bg: #412402; --layer-fg: #fac775; --layer-line: #854f0b;
+      --sys-bg: #4a1414; --sys-fg: #f7c1c1; --sys-line: #a32d2d;
+      --led-off: #3d3c39;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-size: 24px; font-weight: 600; margin: 0 0 4px; }
+  h2 { font-size: 18px; font-weight: 600; margin: 40px 0 12px; }
+  h3 { font-size: 15px; font-weight: 600; margin: 0 0 10px; }
+  .lede { color: var(--muted); margin: 0; }
+  code { font-family: ui-monospace, Consolas, monospace; font-size: 13px; }
+  .tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .tabs button { font: inherit; font-size: 14px; padding: 6px 14px; border-radius: 8px; border: 1px solid var(--line-strong); background: transparent; color: var(--text); cursor: pointer; }
+  .tabs button[aria-selected="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .board { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px 16px; overflow-x: auto; }
+  .kb { display: flex; justify-content: center; gap: 32px; width: max-content; margin: 0 auto; }
+  .half { display: grid; grid-template-columns: repeat(7, 48px); grid-auto-rows: 44px; gap: 4px; }
+  .k { border-radius: 7px; border: 1px solid var(--line-strong); background: var(--key); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; font-size: 13px; line-height: 1.1; padding: 2px; overflow: hidden; }
+  .k small { font-size: 10px; opacity: .8; }
+  .k.t { border-style: dashed; border-color: var(--line); background: transparent; color: var(--faint); font-size: 12px; }
+  .k.e { border-style: dashed; border-color: var(--line); background: transparent; }
+  .k.m { background: var(--key-mod); color: var(--muted); font-size: 12px; }
+  .k.s { background: var(--sym-bg); color: var(--sym-fg); border-color: var(--sym-line); font-size: 16px; }
+  .k.n { background: var(--nav-bg); color: var(--nav-fg); border-color: var(--nav-line); font-size: 12px; }
+  .k.u { background: var(--util-bg); color: var(--util-fg); border-color: var(--util-line); font-size: 12px; }
+  .k.l { background: var(--layer-bg); color: var(--layer-fg); border-color: var(--layer-line); font-size: 12px; }
+  .k.h { background: var(--layer-bg); color: var(--layer-fg); border: 2px solid var(--layer-fg); font-size: 12px; font-weight: 600; }
+  .k.x { background: var(--sys-bg); color: var(--sys-fg); border-color: var(--sys-line); font-size: 12px; }
+  .how { margin: 14px 0 0; text-align: center; }
+  .note { margin: 4px 0 0; text-align: center; color: var(--muted); font-size: 14px; }
+  .legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 16px; margin-top: 14px; font-size: 13px; color: var(--muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i { width: 12px; height: 12px; border-radius: 3px; border: 1px solid var(--line-strong); }
+  .sides { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+  .side { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+  .side > p { margin: -6px 0 12px; color: var(--muted); font-size: 13px; }
+  .state { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line); }
+  .leds { display: flex; gap: 6px; grid-row: span 2; }
+  .led { width: 16px; height: 16px; border-radius: 50%; background: var(--led-off); transition: background-color 40ms, box-shadow 40ms; }
+  .led.on.red { background: var(--led-red); box-shadow: 0 0 8px var(--led-red); }
+  .led.on.green { background: var(--led-green); box-shadow: 0 0 8px var(--led-green); }
+  .led.on.blue { background: var(--led-blue); box-shadow: 0 0 8px var(--led-blue); }
+  .meaning { margin: 0; }
+  .timing { margin: 0; font-size: 12px; color: var(--muted); }
+  .badge { display: inline-block; font-size: 11px; padding: 1px 8px; border-radius: 999px; background: var(--key-mod); color: var(--muted); margin-right: 6px; }
+  footer { margin-top: 40px; font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Dactyl Manuform 5x6</h1>
+  <p class="lede">Capas del keymap y significado de cada LED.</p>
+
+  <h2>Capas</h2>
+  <div class="tabs" role="tablist" id="tabs"></div>
+  <div class="board">
+    <div class="kb"><div class="half" id="left"></div><div class="half" id="right"></div></div>
+    <p class="how" id="how"></p>
+    <p class="note" id="note"></p>
+    <div class="legend">
+      <span><i style="background:var(--sym-bg);border-color:var(--sym-line)"></i>Símbolos</span>
+      <span><i style="background:var(--nav-bg);border-color:var(--nav-line)"></i>Navegación y atajos</span>
+      <span><i style="background:var(--util-bg);border-color:var(--util-line)"></i>Multimedia y utilidades</span>
+      <span><i style="background:var(--layer-bg);border-color:var(--layer-line)"></i>Teclas de capa</span>
+      <span><i style="background:var(--sys-bg);border-color:var(--sys-line)"></i>Sistema</span>
+      <span><i style="border-style:dashed"></i>Viene de la capa de abajo</span>
+    </div>
+  </div>
+
+  <h2>LEDs</h2>
+  <div class="sides">
+    <section class="side">
+      <h3>Mitad izquierda (USB)</h3>
+      <p>Tres LEDs: verde, rojo y azul.</p>
+      <div id="led-left"></div>
+    </section>
+    <section class="side">
+      <h3>Mitad derecha (inalámbrica)</h3>
+      <p>Un LED rojo. Los parpadeos son cortos para ahorrar batería.</p>
+      <div id="led-right"></div>
+    </section>
+  </div>
+
+  <footer>Generado con <code>node tools/keymap-doc.mjs</code> a partir de <code>config/dactyl_manuform_5x6.keymap</code>, <code>Kconfig</code> y <code>src/dactyl_leds.c</code>.</footer>
+</main>
+<script>
+const DATA = {"layers":[{"name":"Base","long":"","how":"Capa por defecto.","note":"N: tócala para n, mantenla para ñ (requiere Num Lock activo en Windows).","keys":[{"label":"Tab","sub":"","cat":"m"},{"label":"F1","sub":"","cat":""},{"label":"F2","sub":"","cat":""},{"label":"F3","sub":"","cat":""},{"label":"F4","sub":"","cat":""},{"label":"F5","sub":"","cat":""},{"label":"F6","sub":"","cat":""},{"label":"F7","sub":"","cat":""},{"label":"F8","sub":"","cat":""},{"label":"F9","sub":"","cat":""},{"label":"F10","sub":"","cat":""},{"label":"F11","sub":"","cat":""},{"label":"F12","sub":"","cat":""},{"label":"⌫","sub":"","cat":"m"},{"label":"Esc","sub":"","cat":"m"},{"label":"1","sub":"","cat":""},{"label":"2","sub":"","cat":""},{"label":"3","sub":"","cat":""},{"label":"4","sub":"","cat":""},{"label":"5","sub":"","cat":""},{"label":"Vol~+","sub":"","cat":"u"},{"label":"Next","sub":"","cat":"u"},{"label":"6","sub":"","cat":""},{"label":"7","sub":"","cat":""},{"label":"8","sub":"","cat":""},{"label":"9","sub":"","cat":""},{"label":"0","sub":"","cat":""},{"label":"-","sub":"","cat":""},{"label":"Esc","sub":"","cat":"m"},{"label":"Q","sub":"","cat":""},{"label":"W","sub":"","cat":""},{"label":"E","sub":"","cat":""},{"label":"R","sub":"","cat":""},{"label":"T","sub":"","cat":""},{"label":"Vol~−","sub":"","cat":"u"},{"label":"Play~Pausa","sub":"","cat":"u"},{"label":"Y","sub":"","cat":""},{"label":"U","sub":"","cat":""},{"label":"I","sub":"","cat":""},{"label":"O","sub":"","cat":""},{"label":"P","sub":"","cat":""},{"label":"Del","sub":"","cat":"m"},{"label":"Shift","sub":"","cat":"m"},{"label":"A","sub":"","cat":""},{"label":"S","sub":"","cat":""},{"label":"D","sub":"","cat":""},{"label":"F","sub":"","cat":""},{"label":"G","sub":"","cat":""},{"label":"Mute","sub":"","cat":"u"},{"label":"Prev","sub":"","cat":"u"},{"label":"H","sub":"","cat":""},{"label":"J","sub":"","cat":""},{"label":"K","sub":"","cat":""},{"label":"L","sub":"","cat":""},{"label":";","sub":"","cat":""},{"label":"'","sub":"","cat":""},{"label":"Ctrl","sub":"","cat":"m"},{"label":"Z","sub":"","cat":""},{"label":"X","sub":"","cat":""},{"label":"C","sub":"","cat":""},{"label":"V","sub":"","cat":""},{"label":"B","sub":"","cat":""},{"label":"Captura","sub":"","cat":"u"},{"label":"Caps~Word","sub":"","cat":"u"},{"label":"N","sub":"mant. Ñ","cat":""},{"label":"M","sub":"","cat":""},{"label":",","sub":"","cat":""},{"label":".","sub":"","cat":""},{"label":"/","sub":"","cat":""},{"label":"\\","sub":"","cat":""},{"label":"Win","sub":"","cat":"m"},{"label":"Alt","sub":"","cat":"m"},{"label":"","cat":"t"},{"label":"","cat":"t"},{"label":"Space","sub":"","cat":"m"},{"label":"Move","sub":"","cat":"l"},{"label":"Space","sub":"","cat":"m"},{"label":"Enter","sub":"","cat":"m"},{"label":"Sym","sub":"","cat":"l"},{"label":"Numbers","sub":"","cat":"l"},{"label":"Sym","sub":"","cat":"l"},{"label":"⌫","sub":"","cat":"m"},{"label":"Escr.~←","sub":"","cat":"u"},{"label":"Escr.~→","sub":"","cat":"u"},{"label":"Del","sub":"","cat":"m"},{"label":"Esc","sub":"","cat":"m"}]},{"name":"Move","long":"","how":"Mantén Move (pulgar izquierdo).","note":"","keys":[{"label":"Tab","sub":"","cat":"t"},{"label":"F1","sub":"","cat":"t"},{"label":"F2","sub":"","cat":"t"},{"label":"F3","sub":"","cat":"t"},{"label":"F4","sub":"","cat":"t"},{"label":"F5","sub":"","cat":"t"},{"label":"Boot","sub":"","cat":"x"},{"label":"Boot","sub":"","cat":"x"},{"label":"F8","sub":"","cat":"t"},{"label":"F9","sub":"","cat":"t"},{"label":"F10","sub":"","cat":"t"},{"label":"F11","sub":"","cat":"t"},{"label":"F12","sub":"","cat":"t"},{"label":"Studio","sub":"","cat":"x"},{"label":"Esc","sub":"","cat":"t"},{"label":"1","sub":"","cat":"t"},{"label":"2","sub":"","cat":"t"},{"label":"3","sub":"","cat":"t"},{"label":"4","sub":"","cat":"t"},{"label":"5","sub":"","cat":"t"},{"label":"Vol~+","sub":"","cat":"t"},{"label":"Next","sub":"","cat":"t"},{"label":"6","sub":"","cat":"t"},{"label":"7","sub":"","cat":"t"},{"label":"8","sub":"","cat":"t"},{"label":"9","sub":"","cat":"t"},{"label":"0","sub":"","cat":"t"},{"label":"-","sub":"","cat":"t"},{"label":"Esc","sub":"","cat":"t"},{"label":"Q","sub":"","cat":"t"},{"label":"W","sub":"","cat":"t"},{"label":"E","sub":"","cat":"t"},{"label":"R","sub":"","cat":"t"},{"label":"T","sub":"","cat":"t"},{"label":"Vol~−","sub":"","cat":"t"},{"label":"Play~Pausa","sub":"","cat":"t"},{"label":"Home","sub":"","cat":"n"},{"label":"PgDn","sub":"","cat":"n"},{"label":"PgUp","sub":"","cat":"n"},{"label":"End","sub":"","cat":"n"},{"label":"P","sub":"","cat":"t"},{"label":"Del","sub":"","cat":"t"},{"label":"Shift","sub":"","cat":"t"},{"label":"A","sub":"","cat":"t"},{"label":"S","sub":"","cat":"t"},{"label":"D","sub":"","cat":"t"},{"label":"F","sub":"","cat":"t"},{"label":"G","sub":"","cat":"t"},{"label":"Mute","sub":"","cat":"t"},{"label":"Prev","sub":"","cat":"t"},{"label":"←","sub":"","cat":"n"},{"label":"↓","sub":"","cat":"n"},{"label":"↑","sub":"","cat":"n"},{"label":"→","sub":"","cat":"n"},{"label":";","sub":"","cat":"t"},{"label":"'","sub":"","cat":"t"},{"label":"Ctrl","sub":"","cat":"t"},{"label":"Ctrl~Z","sub":"","cat":"n"},{"label":"Ctrl~X","sub":"","cat":"n"},{"label":"Ctrl~C","sub":"","cat":"n"},{"label":"Ctrl~V","sub":"","cat":"n"},{"label":"B","sub":"","cat":"t"},{"label":"Captura","sub":"","cat":"t"},{"label":"Caps~Word","sub":"","cat":"t"},{"label":"Ctrl~←","sub":"","cat":"n"},{"label":"M","sub":"","cat":"t"},{"label":",","sub":"","cat":"t"},{"label":"Ctrl~→","sub":"","cat":"n"},{"label":"/","sub":"","cat":"t"},{"label":"→ AOE2","sub":"","cat":"l"},{"label":"Win","sub":"","cat":"t"},{"label":"Alt","sub":"","cat":"t"},{"label":"","cat":"t"},{"label":"","cat":"t"},{"label":"Space","sub":"","cat":"t"},{"label":"Move","sub":"","cat":"h"},{"label":"Space","sub":"","cat":"t"},{"label":"Enter","sub":"","cat":"t"},{"label":"Sym","sub":"","cat":"t"},{"label":"Numbers","sub":"","cat":"t"},{"label":"Sym","sub":"","cat":"t"},{"label":"⌫","sub":"","cat":"t"},{"label":"Vista~tareas","sub":"","cat":"u"},{"label":"Nuevo~escr.","sub":"","cat":"u"},{"label":"Del","sub":"","cat":"t"},{"label":"Esc","sub":"","cat":"t"}]},{"name":"Numbers","long":"","how":"Mantén Numbers (pulgar izquierdo).","note":"","keys":[{"label":"Tab","sub":"","cat":"t"},{"label":"F1","sub":"","cat":"t"},{"label":"F2","sub":"","cat":"t"},{"label":"F3","sub":"","cat":"t"},{"label":"F4","sub":"","cat":"t"},{"label":"F5","sub":"","cat":"t"},{"label":"F6","sub":"","cat":"t"},{"label":"F7","sub":"","cat":"t"},{"label":"#","sub":"","cat":"s"},{"label":"%","sub":"","cat":"s"},{"label":"F10","sub":"","cat":"t"},{"label":"F11","sub":"","cat":"t"},{"label":"F12","sub":"","cat":"t"},{"label":"⌫","sub":"","cat":"t"},{"label":"Esc","sub":"","cat":"t"},{"label":"1","sub":"","cat":"t"},{"label":"2","sub":"","cat":"t"},{"label":"3","sub":"","cat":"t"},{"label":"4","sub":"","cat":"t"},{"label":"5","sub":"","cat":"t"},{"label":"Vol~+","sub":"","cat":"t"},{"label":"Next","sub":"","cat":"t"},{"label":"6","sub":"","cat":"t"},{"label":"7","sub":"","cat":""},{"label":"8","sub":"","cat":""},{"label":"9","sub":"","cat":""},{"label":"*","sub":"","cat":"s"},{"label":"-","sub":"","cat":"t"},{"label":"Esc","sub":"","cat":"t"},{"label":"Q","sub":"","cat":"t"},{"label":"W","sub":"","cat":"t"},{"label":"E","sub":"","cat":"t"},{"label":"R","sub":"","cat":"t"},{"label":"T","sub":"","cat":"t"},{"label":"Vol~−","sub":"","cat":"t"},{"label":"Play~Pausa","sub":"","cat":"t"},{"label":"Y","sub":"","cat":"t"},{"label":"4","sub":"","cat":""},{"label":"5","sub":"","cat":""},{"label":"6","sub":"","cat":""},{"label":"-","sub":"","cat":"s"},{"label":"Del","sub":"","cat":"t"},{"label":"Shift","sub":"","cat":"t"},{"label":"A","sub":"","cat":"t"},{"label":"S","sub":"","cat":"t"},{"label":"D","sub":"","cat":"t"},{"label":"F","sub":"","cat":"t"},{"label":"G","sub":"","cat":"t"},{"label":"Mute","sub":"","cat":"t"},{"label":"Prev","sub":"","cat":"t"},{"label":"H","sub":"","cat":"t"},{"label":"1","sub":"","cat":""},{"label":"2","sub":"","cat":""},{"label":"3","sub":"","cat":""},{"label":"+","sub":"","cat":"s"},{"label":"'","sub":"","cat":"t"},{"label":"Ctrl","sub":"","cat":"t"},{"label":"Z","sub":"","cat":"t"},{"label":"X","sub":"","cat":"t"},{"label":"C","sub":"","cat":"t"},{"label":"V","sub":"","cat":"t"},{"label":"B","sub":"","cat":"t"},{"label":"Captura","sub":"","cat":"t"},{"label":"Num~Lock","sub":"","cat":"m"},{"label":"N","sub":"mant. Ñ","cat":"t"},{"label":"0","sub":"","cat":""},{"label":"/","sub":"","cat":"s"},{"label":".","sub":"","cat":"t"},{"label":"/","sub":"","cat":"t"},{"label":"\\","sub":"","cat":"t"},{"label":"Win","sub":"","cat":"t"},{"label":"Alt","sub":"","cat":"t"},{"label":"","cat":"t"},{"label":"","cat":"t"},{"label":"Space","sub":"","cat":"t"},{"label":"Move","sub":"","cat":"t"},{"label":"Space","sub":"","cat":"t"},{"label":"Enter","sub":"","cat":"t"},{"label":"Sym","sub":"","cat":"t"},{"label":"Numbers","sub":"","cat":"h"},{"label":"Sym","sub":"","cat":"t"},{"label":"⌫","sub":"","cat":"t"},{"label":"Escr.~←","sub":"","cat":"t"},{"label":"Escr.~→","sub":"","cat":"t"},{"label":"Del","sub":"","cat":"t"},{"label":"Esc","sub":"","cat":"t"}]},{"name":"Sym","long":"","how":"Mantén Sym (pulgar izquierdo o pulgar derecho).","note":"[ ] arriba, ( ) en medio, { } abajo: siempre abres con el índice y cierras con el medio.","keys":[{"label":"Tab","sub":"","cat":"t"},{"label":"F1","sub":"","cat":"t"},{"label":"F2","sub":"","cat":"t"},{"label":"F3","sub":"","cat":"t"},{"label":"F4","sub":"","cat":"t"},{"label":"F5","sub":"","cat":"t"},{"label":"F6","sub":"","cat":"t"},{"label":"F7","sub":"","cat":"t"},{"label":"F8","sub":"","cat":"t"},{"label":"F9","sub":"","cat":"t"},{"label":"F10","sub":"","cat":"t"},{"label":"F11","sub":"","cat":"t"},{"label":"F12","sub":"","cat":"t"},{"label":"⌫","sub":"","cat":"t"},{"label":"Esc","sub":"","cat":"t"},{"label":"1","sub":"","cat":"t"},{"label":"2","sub":"","cat":"t"},{"label":"3","sub":"","cat":"t"},{"label":"4","sub":"","cat":"t"},{"label":"5","sub":"","cat":"t"},{"label":"Vol~+","sub":"","cat":"t"},{"label":"Next","sub":"","cat":"t"},{"label":"6","sub":"","cat":"t"},{"label":"7","sub":"","cat":"t"},{"label":"8","sub":"","cat":"t"},{"label":"9","sub":"","cat":"t"},{"label":"0","sub":"","cat":"t"},{"label":"-","sub":"","cat":"t"},{"label":"Esc","sub":"","cat":"t"},{"label":"!","sub":"","cat":"s"},{"label":"@","sub":"","cat":"s"},{"label":"#","sub":"","cat":"s"},{"label":"$","sub":"","cat":"s"},{"label":"%","sub":"","cat":"s"},{"label":"Vol~−","sub":"","cat":"t"},{"label":"Play~Pausa","sub":"","cat":"t"},{"label":"&","sub":"","cat":"s"},{"label":"[","sub":"","cat":"s"},{"label":"]","sub":"","cat":"s"},{"label":"|","sub":"","cat":"s"},{"label":"\\","sub":"","cat":"s"},{"label":"Del","sub":"","cat":"t"},{"label":"Shift","sub":"","cat":"t"},{"label":"`","sub":"","cat":"s"},{"label":"'","sub":"","cat":"s"},{"label":"\"","sub":"","cat":"s"},{"label":"_","sub":"","cat":"s"},{"label":"+","sub":"","cat":"s"},{"label":"Mute","sub":"","cat":"t"},{"label":"Prev","sub":"","cat":"t"},{"label":"=","sub":"","cat":"s"},{"label":"(","sub":"","cat":"s"},{"label":")","sub":"","cat":"s"},{"label":"-","sub":"","cat":"s"},{"label":";","sub":"","cat":"s"},{"label":"'","sub":"","cat":"t"},{"label":"Ctrl","sub":"","cat":"t"},{"label":"~","sub":"","cat":"s"},{"label":"?","sub":"","cat":"s"},{"label":":","sub":"","cat":"s"},{"label":"*","sub":"","cat":"s"},{"label":"^","sub":"","cat":"s"},{"label":"Captura","sub":"","cat":"t"},{"label":"Caps~Word","sub":"","cat":"t"},{"label":"\u003c","sub":"","cat":"s"},{"label":"{","sub":"","cat":"s"},{"label":"}","sub":"","cat":"s"},{"label":">","sub":"","cat":"s"},{"label":"/","sub":"","cat":"s"},{"label":"\\","sub":"","cat":"t"},{"label":"Win","sub":"","cat":"t"},{"label":"Alt","sub":"","cat":"t"},{"label":"","cat":"t"},{"label":"","cat":"t"},{"label":"Space","sub":"","cat":"t"},{"label":"Move","sub":"","cat":"t"},{"label":"Space","sub":"","cat":"t"},{"label":"Enter","sub":"","cat":"t"},{"label":"Sym","sub":"","cat":"h"},{"label":"Numbers","sub":"","cat":"t"},{"label":"Sym","sub":"","cat":"h"},{"label":"⌫","sub":"","cat":"t"},{"label":"Escr.~←","sub":"","cat":"t"},{"label":"Escr.~→","sub":"","cat":"t"},{"label":"Del","sub":"","cat":"t"},{"label":"Esc","sub":"","cat":"t"}]},{"name":"AOE2","long":"Age of Empires II","how":"Se activa con «→ AOE2» en la capa Move (mitad derecha, fila 5). Para salir: «→ Base» (mitad derecha, fila 5).","note":"El LED azul se queda encendido mientras esta capa está activa.","keys":[{"label":"Tab","sub":"","cat":"t"},{"label":"F1","sub":"","cat":"t"},{"label":"F2","sub":"","cat":"t"},{"label":"F3","sub":"","cat":"t"},{"label":"F4","sub":"","cat":"t"},{"label":"F5","sub":"","cat":"t"},{"label":"Del","sub":"","cat":"m"},{"label":"F7","sub":"","cat":"t"},{"label":"F8","sub":"","cat":"t"},{"label":"F9","sub":"","cat":"t"},{"label":"F10","sub":"","cat":"t"},{"label":"F11","sub":"","cat":"t"},{"label":"F12","sub":"","cat":"t"},{"label":"⌫","sub":"","cat":"t"},{"label":"Esc","sub":"","cat":"t"},{"label":"1","sub":"","cat":"t"},{"label":"2","sub":"","cat":"t"},{"label":"3","sub":"","cat":"t"},{"label":"4","sub":"","cat":"t"},{"label":"5","sub":"","cat":"t"},{"label":"Vol~+","sub":"","cat":"t"},{"label":"Next","sub":"","cat":"t"},{"label":"6","sub":"","cat":"t"},{"label":"7","sub":"","cat":"t"},{"label":"8","sub":"","cat":"t"},{"label":"9","sub":"","cat":"t"},{"label":"0","sub":"","cat":"t"},{"label":"-","sub":"","cat":"t"},{"label":"Esc","sub":"","cat":"t"},{"label":"Q","sub":"","cat":"t"},{"label":"W","sub":"","cat":"t"},{"label":"E","sub":"","cat":"t"},{"label":"R","sub":"","cat":"t"},{"label":"T","sub":"","cat":"t"},{"label":"I","sub":"","cat":""},{"label":"Play~Pausa","sub":"","cat":"t"},{"label":"Y","sub":"","cat":"t"},{"label":"U","sub":"","cat":"t"},{"label":"I","sub":"","cat":"t"},{"label":"O","sub":"","cat":"t"},{"label":"P","sub":"","cat":"t"},{"label":"Del","sub":"","cat":"t"},{"label":"Shift","sub":"","cat":"t"},{"label":"A","sub":"","cat":"t"},{"label":"S","sub":"","cat":"t"},{"label":"D","sub":"","cat":"t"},{"label":"F","sub":"","cat":"t"},{"label":"G","sub":"","cat":"t"},{"label":"/","sub":"","cat":"s"},{"label":"Prev","sub":"","cat":"t"},{"label":"H","sub":"","cat":"t"},{"label":"J","sub":"","cat":"t"},{"label":"K","sub":"","cat":"t"},{"label":"L","sub":"","cat":"t"},{"label":";","sub":"","cat":"t"},{"label":"'","sub":"","cat":"t"},{"label":"M","sub":"","cat":""},{"label":"Z","sub":"","cat":"t"},{"label":"X","sub":"","cat":"t"},{"label":"C","sub":"","cat":"t"},{"label":"V","sub":"","cat":"t"},{"label":"B","sub":"","cat":"t"},{"label":"O","sub":"","cat":""},{"label":"Caps~Word","sub":"","cat":"t"},{"label":"N","sub":"mant. Ñ","cat":"t"},{"label":"M","sub":"","cat":"t"},{"label":",","sub":"","cat":"t"},{"label":".","sub":"","cat":"t"},{"label":"/","sub":"","cat":"t"},{"label":"→ Base","sub":"","cat":"l"},{"label":"Win","sub":"","cat":"t"},{"label":"Alt","sub":"","cat":"t"},{"label":"","cat":"t"},{"label":"","cat":"t"},{"label":"Ctrl","sub":"","cat":"m"},{"label":"Ctrl~Shift","sub":"","cat":"m"},{"label":"Space","sub":"","cat":"t"},{"label":"Enter","sub":"","cat":"t"},{"label":"Sym","sub":"","cat":"t"},{"label":"Alt","sub":"","cat":"m"},{"label":"Sym","sub":"","cat":"t"},{"label":"⌫","sub":"","cat":"t"},{"label":".","sub":"","cat":"s"},{"label":"Home","sub":"","cat":"n"},{"label":"Del","sub":"","cat":"t"},{"label":"Esc","sub":"","cat":"t"}]},{"name":"Adjust","long":"","how":"Mantén Move + Sym a la vez.","note":"Boot y Reset actúan sobre la mitad en la que los pulsas. El LED verde se queda fijo.","keys":[{"label":"Boot","sub":"","cat":"x"},{"label":"Reset","sub":"","cat":"x"},{"label":"F2","sub":"","cat":"t"},{"label":"F3","sub":"","cat":"t"},{"label":"F4","sub":"","cat":"t"},{"label":"F5","sub":"","cat":"t"},{"label":"Boot","sub":"","cat":"t"},{"label":"Boot","sub":"","cat":"t"},{"label":"F8","sub":"","cat":"t"},{"label":"F9","sub":"","cat":"t"},{"label":"F10","sub":"","cat":"t"},{"label":"F11","sub":"","cat":"t"},{"label":"Reset","sub":"","cat":"x"},{"label":"Boot","sub":"","cat":"x"},{"label":"Esc","sub":"","cat":"t"},{"label":"BT 1","sub":"","cat":"x"},{"label":"BT 2","sub":"","cat":"x"},{"label":"BT 3","sub":"","cat":"x"},{"label":"BT Clr","sub":"","cat":"x"},{"label":"5","sub":"","cat":"t"},{"label":"Vol~+","sub":"","cat":"t"},{"label":"Next","sub":"","cat":"t"},{"label":"6","sub":"","cat":"t"},{"label":"7","sub":"","cat":"t"},{"label":"8","sub":"","cat":"t"},{"label":"9","sub":"","cat":"t"},{"label":"0","sub":"","cat":"t"},{"label":"Studio","sub":"","cat":"x"},{"label":"Esc","sub":"","cat":"t"},{"label":"USB","sub":"","cat":"x"},{"label":"BLE","sub":"","cat":"x"},{"label":"#","sub":"","cat":"t"},{"label":"$","sub":"","cat":"t"},{"label":"%","sub":"","cat":"t"},{"label":"Vol~−","sub":"","cat":"t"},{"label":"Play~Pausa","sub":"","cat":"t"},{"label":"&","sub":"","cat":"t"},{"label":"[","sub":"","cat":"t"},{"label":"]","sub":"","cat":"t"},{"label":"|","sub":"","cat":"t"},{"label":"\\","sub":"","cat":"t"},{"label":"Bloquear","sub":"","cat":"x"},{"label":"Shift","sub":"","cat":"t"},{"label":"`","sub":"","cat":"t"},{"label":"'","sub":"","cat":"t"},{"label":"\"","sub":"","cat":"t"},{"label":"_","sub":"","cat":"t"},{"label":"+","sub":"","cat":"t"},{"label":"Mute","sub":"","cat":"t"},{"label":"Prev","sub":"","cat":"t"},{"label":"=","sub":"","cat":"t"},{"label":"(","sub":"","cat":"t"},{"label":")","sub":"","cat":"t"},{"label":"-","sub":"","cat":"t"},{"label":";","sub":"","cat":"t"},{"label":"'","sub":"","cat":"t"},{"label":"Ctrl","sub":"","cat":"t"},{"label":"~","sub":"","cat":"t"},{"label":"?","sub":"","cat":"t"},{"label":":","sub":"","cat":"t"},{"label":"*","sub":"","cat":"t"},{"label":"^","sub":"","cat":"t"},{"label":"Captura","sub":"","cat":"t"},{"label":"Caps~Word","sub":"","cat":"t"},{"label":"\u003c","sub":"","cat":"t"},{"label":"{","sub":"","cat":"t"},{"label":"}","sub":"","cat":"t"},{"label":">","sub":"","cat":"t"},{"label":"/","sub":"","cat":"t"},{"label":"→ AOE2","sub":"","cat":"t"},{"label":"Win","sub":"","cat":"t"},{"label":"Alt","sub":"","cat":"t"},{"label":"","cat":"t"},{"label":"","cat":"t"},{"label":"Space","sub":"","cat":"t"},{"label":"Move","sub":"","cat":"h"},{"label":"Space","sub":"","cat":"t"},{"label":"Enter","sub":"","cat":"t"},{"label":"Sym","sub":"","cat":"h"},{"label":"Numbers","sub":"","cat":"t"},{"label":"Sym","sub":"","cat":"h"},{"label":"⌫","sub":"","cat":"t"},{"label":"Vista~tareas","sub":"","cat":"t"},{"label":"Nuevo~escr.","sub":"","cat":"t"},{"label":"Del","sub":"","cat":"t"},{"label":"Esc","sub":"","cat":"t"}]}],"leds":{"left":[{"led":"red","steady":true,"when":"Fijo","meaning":"Caps Lock activo."},{"led":"blue","steady":true,"when":"Fijo","meaning":"Estás en la capa Age of Empires II."},{"led":"green","steady":true,"when":"Fijo","meaning":"Estás en la capa Adjust. Mientras tanto no se ven las alertas del lado derecho."},{"led":"green","on":150,"off":0,"count":1,"pause":1850,"loop":true,"when":"Repetitivo","meaning":"El lado derecho no está enlazado. Es normal los primeros segundos después de conectar."},{"led":"green","on":80,"off":150,"count":2,"pause":5000,"loop":true,"when":"Repetitivo","meaning":"La batería del lado derecho está en 15% o menos."},{"led":"green","on":250,"off":250,"count":3,"when":"Al enlazarse","meaning":"El lado derecho se conectó con 50% de batería o más."},{"led":"green","on":250,"off":250,"count":2,"when":"Al enlazarse","meaning":"El lado derecho se conectó con entre 16% y 49% de batería."},{"led":"green","on":250,"off":250,"count":1,"when":"Al enlazarse","meaning":"El lado derecho se conectó con 15% de batería o menos."}],"right":[{"led":"red","on":500,"off":500,"count":2,"when":"Al encender","meaning":"Batería al 50% o más."},{"led":"red","on":150,"off":150,"count":4,"when":"Al encender","meaning":"Batería entre 16% y 49%."},{"led":"red","on":50,"off":50,"count":6,"when":"Al encender","meaning":"Batería en 15% o menos: conviene cargarlo."},{"led":"red","on":80,"off":120,"count":2,"when":"Una vez","meaning":"Se enlazó con el lado izquierdo."},{"led":"red","on":1000,"off":0,"count":1,"when":"Una vez","meaning":"Perdió el enlace con el lado izquierdo."},{"led":"red","on":40,"off":0,"count":1,"pause":30000,"loop":true,"when":"Repetitivo","meaning":"Batería en 15% o menos."}]}};
+
+// Grid placement: rows 0-4 are the 14-key rows, then the 4-key row under the board and 3 thumb rows.
+function cell(pos) {
+  if (pos < 70) {
+    const col = pos % 14;
+    return { side: col < 7 ? "left" : "right", row: Math.floor(pos / 14), col: col < 7 ? col : col - 7 };
+  }
+  const t = Math.floor((pos - 70) / 4), j = (pos - 70) % 4;
+  const cols = t === 0 ? [3, 4, 2, 3] : [4, 5, 0, 1];
+  return { side: j < 2 ? "left" : "right", row: 5 + t, col: cols[j] };
+}
+
+function keyEl(k) {
+  const el = document.createElement("div");
+  el.className = "k " + (k.cat || "");
+  const [main, second] = (k.label || "").split("~");
+  el.append(document.createTextNode(main));
+  const sub = second ?? k.sub;
+  if (sub) { const s = document.createElement("small"); s.textContent = sub; el.append(s); }
+  return el;
+}
+
+function showLayer(i) {
+  const layer = DATA.layers[i];
+  const halves = { left: document.getElementById("left"), right: document.getElementById("right") };
+  halves.left.replaceChildren(); halves.right.replaceChildren();
+  layer.keys.forEach((k, pos) => {
+    const c = cell(pos), el = keyEl(k);
+    el.style.gridRow = c.row + 1; el.style.gridColumn = c.col + 1;
+    halves[c.side].append(el);
+  });
+  document.getElementById("how").textContent = (layer.long ? layer.long + ". " : "") + layer.how;
+  document.getElementById("note").textContent = layer.note;
+  document.querySelectorAll("#tabs button").forEach((b, j) => b.setAttribute("aria-selected", String(j === i)));
+}
+
+const tabs = document.getElementById("tabs");
+DATA.layers.forEach((l, i) => {
+  const b = document.createElement("button");
+  b.textContent = l.name; b.setAttribute("role", "tab"); b.onclick = () => showLayer(i);
+  tabs.append(b);
+});
+showLayer(0);
+
+// LED demo. Long pauses are shortened so every pattern is visible within a few seconds.
+const DEMO_MAX_PAUSE = 3000, DEMO_REPLAY_GAP = 1800;
+
+function timing(s) {
+  if (s.steady) return "Encendido fijo";
+  const blinks = `${s.count} ${s.count === 1 ? "destello" : "parpadeos"} de ${s.on} ms`;
+  if (!s.loop) return `${blinks}, una sola vez`;
+  const cycle = (s.on + s.off) * s.count + s.pause;
+  const shortened = s.pause > DEMO_MAX_PAUSE ? " (en la demo la pausa está acortada)" : "";
+  return `${blinks}, se repite cada ${Number((cycle / 1000).toFixed(1))} s${shortened}`;
+}
+
+function animate(dot, s) {
+  if (s.steady) { dot.classList.add("on"); return; }
+  const steps = [];
+  for (let n = 0; n < s.count; n++) steps.push([true, s.on], [false, s.off]);
+  steps.push([false, s.loop ? Math.min(s.pause, DEMO_MAX_PAUSE) : DEMO_REPLAY_GAP]);
+  let i = 0;
+  (function tick() {
+    const [on, ms] = steps[i];
+    dot.classList.toggle("on", on);
+    i = (i + 1) % steps.length;
+    setTimeout(tick, Math.max(ms, 1));
+  })();
+}
+
+function renderLeds(id, states, colors) {
+  const box = document.getElementById(id);
+  for (const s of states) {
+    const row = document.createElement("div");
+    row.className = "state";
+    const leds = document.createElement("div");
+    leds.className = "leds";
+    for (const c of colors) {
+      const d = document.createElement("span");
+      d.className = "led " + c;
+      d.title = c;
+      leds.append(d);
+      if (c === s.led) animate(d, s);
+    }
+    const meaning = document.createElement("p");
+    meaning.className = "meaning";
+    const badge = document.createElement("span");
+    badge.className = "badge"; badge.textContent = s.when;
+    meaning.append(badge, s.meaning);
+    const t = document.createElement("p");
+    t.className = "timing"; t.textContent = timing(s);
+    row.append(leds, meaning, t);
+    box.append(row);
+  }
+}
+renderLeds("led-left", DATA.leds.left, ["green", "red", "blue"]);
+renderLeds("led-right", DATA.leds.right, ["red"]);
+</script>
+</body>
+</html>
