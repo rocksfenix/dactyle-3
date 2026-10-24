@@ -7,12 +7,13 @@
 #define DEFAULT 0
 #define MOVE 1
 #define NUMBERS 2
-#define ADJUST 3
-#define AOE2 4
+#define SYM 3
+#define AOE2 4      // CONFIG_DACTYL_LEDS_MODE_LAYER: el LED azul sigue esta capa
+#define ADJUST 5    // Debe ser la más alta para que Sym no tape sus teclas. CONFIG_DACTYL_LEDS_ADJUST_LAYER: enciende el LED verde
 
 / {
     macros {
-        // Macro para la ñ en Windows EN (Alt + 0241)
+        // Macro para la ñ en Windows EN (Alt + 0241). Requiere Num Lock activo.
         enye: enye {
             compatible = "zmk,behavior-macro";
             label = "Ñ";
@@ -28,24 +29,24 @@
     };
 
     behaviors {
-        // Tap Dance: 1 tap = n    |    2 taps = ñ
-        td_n: tap_dance_n {
-            compatible = "zmk,behavior-tap-dance";
-            label = "TAP_DANCE_N";
-            #binding-cells = <0>;
-            tapping-term-ms = <200>;     // Tiempo máximo entre los dos toques (ajusta si quieres más rápido/lento)
-            bindings = <&kp N>, <&enye>;
-        };
-
-        // Solo ejecuta DELETE cuando se mantiene presionado
-        hold_delete: hold_delete {
+        // Tocar = n | mantener = ñ. A diferencia del tap-dance, escribir "nn" rápido no produce ñ.
+        n_enye: n_enye {
             compatible = "zmk,behavior-hold-tap";
-            label = "HOLD_DELETE";
+            label = "N_ENYE";
             #binding-cells = <2>;
             flavor = "tap-preferred";
-            tapping-term-ms = <250>;
-            quick-tap-ms = <0>;
-            bindings = <&kp &kp>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;        // Re-pulsar rápido siempre da n (y permite mantener para repetir)
+            bindings = <&enye>, <&kp>;
+        };
+    };
+
+    // Mantener Move + Sym activa Adjust (Bluetooth, salida, reset, bootloader).
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+        adjust {
+            if-layers = <MOVE SYM>;
+            then-layer = <ADJUST>;
         };
     };
 };
@@ -56,78 +57,92 @@
 
         default_layer {
             bindings = <
-                &kp TAB    &kp F1  &kp F2  &kp F3  &kp F4  &kp F5  &kp F6                 &kp LEFT_BRACKET      &kp AMPERSAND  &kp PIPE     &kp QUESTION  &kp EXCLAMATION  &kp F11       &kp BSPC
-                &kp ESC    &kp N1  &kp N2  &kp N3  &kp N4  &kp N5  &kp DOUBLE_QUOTES      &kp LEFT_PARENTHESIS  &kp N6         &kp N7       &kp N8        &kp N9           &kp N0        &kp BSPC
-                &kp ESC    &kp Q   &kp W   &kp E   &kp R   &kp T   &kp SINGLE_QUOTE       &kp LEFT_BRACE        &kp Y          &kp U        &kp I         &kp O            &kp P         &kp DELETE
-                &kp LSHFT  &kp A   &kp S   &kp D   &kp F   &kp G   &kp GREATER_THAN       &kp LESS_THAN         &kp H          &kp J        &kp K         &kp L            &kp SEMI      &kp MINUS
-                &kp LCTRL  &kp Z   &kp X   &kp C   &kp V   &kp B   &kp GRAVE              &kp EQUAL             &td_n          &kp M        &kp COMMA     &kp DOT          &kp FSLH      &kp BACKSLASH
+                &kp TAB      &kp F1        &kp F2        &kp F3        &kp F4      &kp F5       &kp F6             &kp F7          &kp F8        &kp F9       &kp F10    &kp F11        &kp F12       &kp BSPC
+                &kp ESC      &kp N1        &kp N2        &kp N3        &kp N4      &kp N5       &kp C_VOL_UP       &kp C_NEXT      &kp N6        &kp N7       &kp N8     &kp N9         &kp N0        &kp MINUS
+                &kp ESC      &kp Q         &kp W         &kp E         &kp R       &kp T        &kp C_VOL_DN       &kp C_PP        &kp Y         &kp U        &kp I      &kp O          &kp P         &kp DELETE
+                &kp LSHFT    &kp A         &kp S         &kp D         &kp F       &kp G        &kp C_MUTE         &kp C_PREV      &kp H         &kp J        &kp K      &kp L          &kp SEMI      &kp SQT
+                &kp LCTRL    &kp Z         &kp X         &kp C         &kp V       &kp B        &kp LG(LS(S))      &caps_word      &n_enye 0 N   &kp M        &kp COMMA  &kp DOT        &kp FSLH      &kp BSLH
 
-                                                   &kp LEFT_GUI  &kp LEFT_ALT             &trans     &trans
-                                                   &kp SPACE     &mo MOVE                 &kp SPACE  &kp ENTER
-                                                   &mo NUMBERS   &trans                   &mo MOVE   &trans
-                                                   &trans        &trans                   &trans     &trans
+                                                                          &kp LEFT_GUI      &kp LEFT_ALT           &trans      &trans
+                                                                          &kp SPACE         &mo MOVE               &kp SPACE   &kp ENTER
+                                                                          &mo SYM           &mo NUMBERS            &mo SYM     &kp BSPC
+                                                                          &kp LC(LG(LEFT))  &kp LC(LG(RIGHT))      &kp DELETE  &kp ESC
             >;
         };
 
         move_layer {
             bindings = <
-                &trans     &trans  &trans  &trans  &trans  &trans  &bootloader            &bootloader           &trans         &trans       &trans        &trans           &trans        &studio_unlock
-                &trans     &trans  &trans  &trans  &trans  &trans  &trans                 &trans                &trans         &trans       &trans        &trans           &trans        &trans
-                &trans     &trans  &trans  &trans  &trans  &trans  &trans                 &trans                &trans         &trans       &trans        &trans           &trans        &trans
-                &trans     &trans  &trans  &trans  &trans  &trans  &trans                 &trans                &kp LEFT       &kp DOWN     &kp UP        &kp RIGHT        &trans        &trans
-                &trans     &trans  &trans  &trans  &trans  &trans  &trans                 &kp KP_NUMLOCK        &trans         &trans       &trans        &trans           &trans        &to AOE2
+                &trans       &trans        &trans        &trans        &trans      &trans       &bootloader        &bootloader     &trans        &trans       &trans     &trans         &trans        &studio_unlock
+                &trans       &trans        &trans        &trans        &trans      &trans       &trans             &trans          &trans        &trans       &trans     &trans         &trans        &trans
+                &trans       &trans        &trans        &trans        &trans      &trans       &trans             &trans          &kp HOME      &kp PG_DN    &kp PG_UP  &kp END        &trans        &trans
+                &trans       &trans        &trans        &trans        &trans      &trans       &trans             &trans          &kp LEFT      &kp DOWN     &kp UP     &kp RIGHT      &trans        &trans
+                &trans       &kp LC(Z)     &kp LC(X)     &kp LC(C)     &kp LC(V)   &trans       &trans             &trans          &kp LC(LEFT)  &trans       &trans     &kp LC(RIGHT)  &trans        &to AOE2
 
-                                                   &trans        &trans                   &trans     &trans
-                                                   &trans        &trans                   &trans     &trans
-                                                   &trans        &trans                   &trans     &trans
-                                                   &trans        &trans                   &trans     &trans
+                                                                          &trans            &trans                 &trans      &trans
+                                                                          &trans            &trans                 &trans      &trans
+                                                                          &trans            &trans                 &trans      &trans
+                                                                          &kp LG(TAB)       &kp LC(LG(D))          &trans      &trans
             >;
         };
 
         numbers_layer {
             bindings = <
-                &trans     &trans  &trans  &trans  &trans  &trans  &trans                 &trans                &kp HASH       &kp PERCENT  &trans        &trans           &trans        &trans
-                &trans     &trans  &trans  &trans  &trans  &trans  &trans                 &trans                &trans         &kp N7       &kp N8        &kp N9           &kp ASTERISK  &trans
-                &trans     &trans  &trans  &trans  &trans  &trans  &trans                 &trans                &trans         &kp N4       &kp N5        &kp N6           &kp KP_MINUS  &trans
-                &trans     &trans  &trans  &trans  &trans  &trans  &trans                 &trans                &trans         &kp N1       &kp N2        &kp N3           &kp KP_PLUS   &trans
-                &trans     &trans  &trans  &trans  &trans  &trans  &trans                 &kp KP_NUMLOCK        &trans         &kp N0       &kp SLASH     &trans           &trans        &trans
+                &trans       &trans        &trans        &trans        &trans      &trans       &trans             &trans          &kp HASH      &kp PERCENT  &trans     &trans         &trans        &trans
+                &trans       &trans        &trans        &trans        &trans      &trans       &trans             &trans          &trans        &kp N7       &kp N8     &kp N9         &kp ASTERISK  &trans
+                &trans       &trans        &trans        &trans        &trans      &trans       &trans             &trans          &trans        &kp N4       &kp N5     &kp N6         &kp KP_MINUS  &trans
+                &trans       &trans        &trans        &trans        &trans      &trans       &trans             &trans          &trans        &kp N1       &kp N2     &kp N3         &kp KP_PLUS   &trans
+                &trans       &trans        &trans        &trans        &trans      &trans       &trans             &kp KP_NUMLOCK  &trans        &kp N0       &kp SLASH  &trans         &trans        &trans
 
-                                                   &trans        &trans                   &trans     &trans
-                                                   &trans        &trans                   &trans     &trans
-                                                   &trans        &trans                   &trans     &trans
-                                                   &trans        &trans                   &trans     &trans
+                                                                          &trans            &trans                 &trans      &trans
+                                                                          &trans            &trans                 &trans      &trans
+                                                                          &trans            &trans                 &trans      &trans
+                                                                          &trans            &trans                 &trans      &trans
             >;
         };
 
-        adjust_layer {
+        symbols_layer {
             bindings = <
-                &trans     &trans  &trans  &trans  &trans  &trans  &trans                 &trans                &trans         &trans       &trans        &trans           &trans        &trans
-                &trans     &trans  &trans  &trans  &trans  &trans  &trans                 &trans                &trans         &trans       &trans        &trans           &trans        &trans
-                &trans     &trans  &trans  &trans  &trans  &trans  &trans                 &trans                &trans         &trans       &trans        &trans           &trans        &trans
-                &trans     &trans  &trans  &trans  &trans  &trans  &trans                 &kp LEFT              &kp DOWN       &kp UP       &kp RIGHT     &trans           &trans        &trans
-                &trans     &trans  &trans  &trans  &trans  &trans  &trans                 &trans                &trans         &trans       &trans        &trans           &trans        &trans
+                &trans       &trans        &trans        &trans        &trans      &trans       &trans             &trans          &trans        &trans       &trans     &trans         &trans        &trans
+                &trans       &trans        &trans        &trans        &trans      &trans       &trans             &trans          &trans        &trans       &trans     &trans         &trans        &trans
+                &trans       &kp EXCL      &kp AT        &kp HASH      &kp DOLLAR  &kp PERCENT  &trans             &trans          &kp AMPS      &kp LBKT     &kp RBKT   &kp PIPE       &kp BSLH      &trans
+                &trans       &kp GRAVE     &kp SQT       &kp DQT       &kp UNDER   &kp PLUS     &trans             &trans          &kp EQUAL     &kp LPAR     &kp RPAR   &kp MINUS      &kp SEMI      &trans
+                &trans       &kp TILDE     &kp QMARK     &kp COLON     &kp ASTRK   &kp CARET    &trans             &trans          &kp LT        &kp LBRC     &kp RBRC   &kp GT         &kp FSLH      &trans
 
-                                                   &trans        &trans                   &trans     &trans
-                                                   &trans        &trans                   &trans     &trans
-                                                   &trans        &trans                   &trans     &trans
-                                                   &trans        &trans                   &trans     &trans
+                                                                          &trans            &trans                 &trans      &trans
+                                                                          &trans            &trans                 &trans      &trans
+                                                                          &trans            &trans                 &trans      &trans
+                                                                          &trans            &trans                 &trans      &trans
             >;
         };
 
         age_of_empires_2_layer {
             bindings = <
-                &trans     &trans  &trans  &trans  &trans  &trans  &kp DELETE             &trans                &trans         &trans       &trans        &trans           &trans        &trans
-                &trans     &trans  &trans  &trans  &trans  &trans  &trans                 &trans                &trans         &trans       &trans        &trans           &trans        &trans
-                &trans     &trans  &trans  &trans  &trans  &trans  &kp I                  &trans                &trans         &trans       &trans        &trans           &trans        &trans
-                &trans     &trans  &trans  &trans  &trans  &trans  &kp FSLH               &trans                &trans         &trans       &trans        &trans           &trans        &trans
-                &trans     &trans  &trans  &trans  &trans  &trans  &kp O                  &trans                &trans         &trans       &trans        &trans           &trans        &to DEFAULT
+                &trans       &trans        &trans        &trans        &trans      &trans       &kp DELETE         &trans          &trans        &trans       &trans     &trans         &trans        &trans
+                &trans       &trans        &trans        &trans        &trans      &trans       &trans             &trans          &trans        &trans       &trans     &trans         &trans        &trans
+                &trans       &trans        &trans        &trans        &trans      &trans       &kp I              &trans          &trans        &trans       &trans     &trans         &trans        &trans
+                &trans       &trans        &trans        &trans        &trans      &trans       &kp FSLH           &trans          &trans        &trans       &trans     &trans         &trans        &trans
+                &trans       &trans        &trans        &trans        &trans      &trans       &kp O              &trans          &trans        &trans       &trans     &trans         &trans        &to DEFAULT
 
-                                                   &trans        &trans                   &trans     &trans
-                                                   &kp LCTRL     &kp LC(LSHFT)            &trans     &trans
-                                                   &trans        &kp LALT                 &trans     &trans
-                                                   &kp DOT       &kp HOME                 &trans     &trans
+                                                                          &trans            &trans                 &trans      &trans
+                                                                          &kp LCTRL         &kp LC(LSHFT)          &trans      &trans
+                                                                          &trans            &kp LALT               &trans      &trans
+                                                                          &kp DOT           &kp HOME               &trans      &trans
+            >;
+        };
+
+        adjust_layer {
+            bindings = <
+                &bootloader  &sys_reset    &trans        &trans        &trans      &trans       &trans             &trans          &trans        &trans       &trans     &trans         &sys_reset    &bootloader
+                &trans       &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_CLR  &trans       &trans             &trans          &trans        &trans       &trans     &trans         &trans        &studio_unlock
+                &trans       &out OUT_USB  &out OUT_BLE  &trans        &trans      &trans       &trans             &trans          &trans        &trans       &trans     &trans         &trans        &kp LG(L)
+                &trans       &trans        &trans        &trans        &trans      &trans       &trans             &trans          &trans        &trans       &trans     &trans         &trans        &trans
+                &trans       &trans        &trans        &trans        &trans      &trans       &trans             &trans          &trans        &trans       &trans     &trans         &trans        &trans
+
+                                                                          &trans            &trans                 &trans      &trans
+                                                                          &trans            &trans                 &trans      &trans
+                                                                          &trans            &trans                 &trans      &trans
+                                                                          &trans            &trans                 &trans      &trans
             >;
         };
     };
 };
- 
