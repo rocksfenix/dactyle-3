@@ -58,10 +58,10 @@
         default_layer {
             bindings = <
                 &kp TAB      &kp F1        &kp F2        &kp F3        &kp F4      &kp F5       &kp F6             &kp F7          &kp F8        &kp F9       &kp F10    &kp F11        &kp F12       &kp BSPC
-                &kp ESC      &kp N1        &kp N2        &kp N3        &kp N4      &kp N5       &kp C_VOL_UP       &kp C_NEXT      &kp N6        &kp N7       &kp N8     &kp N9         &kp N0        &kp MINUS
-                &kp ESC      &kp Q         &kp W         &kp E         &kp R       &kp T        &kp C_VOL_DN       &kp C_PP        &kp Y         &kp U        &kp I      &kp O          &kp P         &kp DELETE
-                &kp LSHFT    &kp A         &kp S         &kp D         &kp F       &kp G        &kp C_MUTE         &kp C_PREV      &kp H         &kp J        &kp K      &kp L          &kp SEMI      &kp SQT
-                &kp LCTRL    &kp Z         &kp X         &kp C         &kp V       &kp B        &kp LG(LS(S))      &caps_word      &n_enye 0 N   &kp M        &kp COMMA  &kp DOT        &kp FSLH      &kp BSLH
+                &kp ESC      &kp N1        &kp N2        &kp N3        &kp N4      &kp N5       &kp LG(LS(S))      &caps_word      &kp N6        &kp N7       &kp N8     &kp N9         &kp N0        &kp BSPC
+                &kp ESC      &kp Q         &kp W         &kp E         &kp R       &kp T        &kp C_MUTE         &kp C_PP        &kp Y         &kp U        &kp I      &kp O          &kp P         &kp DELETE
+                &kp LSHFT    &kp A         &kp S         &kp D         &kp F       &kp G        &kp C_VOL_UP       &kp C_NEXT      &kp H         &kp J        &kp K      &kp L          &kp SEMI      &kp MINUS
+                &kp LCTRL    &kp Z         &kp X         &kp C         &kp V       &kp B        &kp C_VOL_DN       &kp C_PREV      &n_enye 0 N   &kp M        &kp COMMA  &kp DOT        &kp FSLH      &kp BACKSLASH
 
                                                                           &kp LEFT_GUI      &kp LEFT_ALT           &trans      &trans
                                                                           &kp SPACE         &mo MOVE               &kp SPACE   &kp ENTER
